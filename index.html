@@ -7,6 +7,19 @@
 </head>
 <body>
     <h1>Hello World</h1>
+    <button onclick="fetchMessage()">Get Message from Backend</button>
+    <p id="message"></p>
+
+    <script>
+        function fetchMessage() {
+            fetch('http://localhost:5000/message')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('message').innerText = data.message;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
 </body>
 </html>
 
