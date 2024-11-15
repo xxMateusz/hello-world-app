@@ -24,3 +24,7 @@ jobs:
 
     - name: Test Docker image
       run: docker-compose up --exit-code-from backend --abort-on-container-exit
+    - name: Run Python Tests
+      run: |
+        docker-compose up -d backend
+        docker exec hello-world-app-backend-1 pytest /app/tests/
