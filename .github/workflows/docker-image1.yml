@@ -1,0 +1,29 @@
+name: Docker Image Build Check
+
+on:
+  push:
+    branches:
+      - nowy-branch
+  pull_request:
+    branches:
+      - nowy-branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Log in to DockerHub
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+    - name: Build Docker image
+      run: docker build -t hello-world-app:latest .
+
+    - name: Test Docker image
+      run: docker run --rm hello-world-app:latest
